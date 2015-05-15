@@ -12,20 +12,24 @@
 	<dict>
 		<key>0B8549ECAC70B175A291EBB2E392B9231CD76E38</key>
 		<string>https://github.com/ascherbinin/GLNews.git</string>
+		<key>27DED50143CD92505D4EEBDD42A1085F7B43F629</key>
+		<string>https://github.com/ascherbinin/GLNews-MWidget.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>GLNews.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>0B8549ECAC70B175A291EBB2E392B9231CD76E38</key>
+		<string>../../../GLNews</string>
+		<key>27DED50143CD92505D4EEBDD42A1085F7B43F629</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/ascherbinin/GLNews.git</string>
+	<string>https://github.com/ascherbinin/GLNews-MWidget.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>0B8549ECAC70B175A291EBB2E392B9231CD76E38</string>
+	<string>27DED50143CD92505D4EEBDD42A1085F7B43F629</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
@@ -35,6 +39,14 @@
 			<string>0B8549ECAC70B175A291EBB2E392B9231CD76E38</string>
 			<key>IDESourceControlWCCName</key>
 			<string>GLNews</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>27DED50143CD92505D4EEBDD42A1085F7B43F629</string>
+			<key>IDESourceControlWCCName</key>
+			<string>GLNews-MWidget</string>
 		</dict>
 	</array>
 </dict>

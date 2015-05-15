@@ -57,71 +57,28 @@
 
 -(void)loadNews
 {
-    
-    NSURL *newsUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://live.goodline.info/guest/page%d",pageNumber]];
-   
   
-    NSArray *newsNodes = [RDHelper requestData:newsUrl xPathQueryStr:@"//article"];
-    
-    
-    //[newsParser searchWithXPathQuery:newsXpathQueryString];
-    
-    
-    
-    if ([newsNodes count] == 0)
-        NSLog(@"Нету node");
-    else
-    {
-        NSLog(@"Найдено %lu корневых элементов", (unsigned long)[newsNodes count]);
+        NSURL *newsUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://live.goodline.info/guest/page%d",pageNumber]];
+        
+        
+        NSArray *newsNodes = [RDHelper requestData:newsUrl xPathQueryStr:@"//article"];
+        
+        if ([newsNodes count] == 0)
+            NSLog(@"Нету node");
+        else
+        {
+            NSLog(@"Найдено %lu корневых элементов", (unsigned long)[newsNodes count]);
+            
+            for (NSMutableArray *arr in [RDHelper parsArray:newsNodes]) {
+                [_objects addObject:arr];
+            }
+            
+           // [_objects addObjectsFromArray:[RDHelper parsArray:newsNodes]];
+            
+        }
    
-        
-        
-        //NSMutableArray *newNews = [[NSMutableArray alloc] initWithCapacity:0];
-        
-        for (TFHppleElement *element in newsNodes){
-            
-            
-            
-            
-            NewsElement *ne = [[NewsElement alloc]init];
-            
-            
-            
-            TFHppleElement *subelement = [element firstChildWithClassName:@"wraps out-topic"];
-            TFHppleElement *descriptionElement = [subelement firstChildWithClassName:@"topic-content text"];
-            TFHppleElement *titleElement =[subelement firstChildWithClassName:@"topic-header"] ;
-            TFHppleElement *imageElement = [element firstChildWithClassName:@"preview"];
-            
-          //  (NSLog(@"Description element - %@",[[titleElement firstChildWithTagName:@"time"]content])) ;
-          
-            ne.titleText =[[[titleElement firstChildWithClassName:@"topic-title word-wrap"] content]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            
-            ne.descriptionText =[[descriptionElement content] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            
-            NSString *dateString = [[[titleElement firstChildWithTagName:@"time"]content]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            NSScanner *scanner = [[NSScanner alloc] initWithString:dateString];
-            [scanner scanUpToString:@"," intoString:nil];
-            ne.dateNewsText = [dateString substringWithRange:NSMakeRange(0, scanner.scanLocation)];
-            
-            TFHppleElement *imageNode = [[imageElement firstChildWithTagName:@"a"] firstChildWithTagName:@"img"];
-           
-            ne.imageUrl = [imageNode objectForKey:@"src"];
-            
-           
-            
-            NSString *urlString = [[[titleElement firstChildWithTagName:@"h2"]firstChildWithTagName:@"a"] objectForKey:@"href"];
-            ne.articleUrl =[NSURL URLWithString:urlString];
-            
-            
-            [_objects addObject:ne];
-    }
+            [self.tableView reloadData];
     
-        
-        
-        
-    [self.tableView reloadData];
-    
-    }
 }
 
 #pragma mark - Table view data source
@@ -156,6 +113,7 @@
         cell = [nib objectAtIndex:0];
     }
     
+    
     NewsElement *news = [_objects objectAtIndex:indexPath.row];
     NSArray* images = [news imagesFromContent:news.imageUrl];
     NSString *imageStringURL = [images objectAtIndex:0];
@@ -174,7 +132,7 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
    
     NSLog(@"%ld", (long)indexPath.row);
-   
+    
     return cell;
 }
 
