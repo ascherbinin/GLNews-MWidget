@@ -81,11 +81,34 @@
     
 }
 
+-(void) loadLastNewsForWidget
+{
+    DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+    
+    if(!_objects.count>0)
+    {
+        [self loadNews];
+    }
+    else
+    {
+        
+        NSLog(@"Ничего не загрузилось в loadLastNewsForWidget");
+
+    }
+    
+    NewsElement *news = [_objects objectAtIndex:0];
+    [detailViewController setDetails:news];
+    
+    [self.navigationController pushViewController:detailViewController animated:YES];
+}
+
 #pragma mark - Table view data source
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
     return 1;
 }
+
+
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -98,6 +121,8 @@
     // Usually the number of items in your array (the one that holds your list)
     return [_objects count];
 }
+
+
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

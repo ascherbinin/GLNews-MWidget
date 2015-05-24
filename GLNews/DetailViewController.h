@@ -23,4 +23,5 @@
 -(void) setDetails:(NewsElement*)newsElementDetail;
 
 
+
 @end

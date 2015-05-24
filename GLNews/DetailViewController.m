@@ -18,6 +18,7 @@
 
 @implementation DetailViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Open"
@@ -26,19 +27,21 @@
                                                             action:@selector(openNews)];
     self.navigationItem.rightBarButtonItem = item;
     
-    [self reloadData];
+    
+        [self reloadData];
+    
+   
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    
 }
 
 -(void) setDetails:(NewsElement*)reciveDetail;
 {
     _newsElementDetail = reciveDetail;
-    
-  
 }
 
 
@@ -46,7 +49,7 @@
 -(void)openNews
 {
    
-    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"Назад" destructiveButtonTitle:nil otherButtonTitles:@"Открыть",@"Открыть в браузере", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"Назад" destructiveButtonTitle:nil otherButtonTitles:@"Открыть в браузере", nil];
     
     [actionSheet showInView:self.view];
 }
@@ -55,9 +58,6 @@
 {
     switch (buttonIndex) {
         case 0:
-            
-            break;
-        case 1:
             [[UIApplication sharedApplication] openURL:_newsElementDetail.articleUrl];
             break;
         default:
@@ -69,33 +69,36 @@
 {
     if(!_newsElementDetail)
     {
+        NSLog(@"Пустой newsElement, в reload data(DetailViewController)");
         return;
     }
-    self.navigationItem.title = _newsElementDetail.dateNewsText;
-    self.titleLable.text = _newsElementDetail.titleText;
     
+  
+       NSArray *articleNodes = [RDHelper requestData:_newsElementDetail.articleUrl xPathQueryStr:@"//div[@class='topic-content text']"];
+        
+        self.navigationItem.title = _newsElementDetail.dateNewsText;
+        self.titleLable.text = _newsElementDetail.titleText;
 
-    NSArray *articleNodes = [RDHelper requestData:_newsElementDetail.articleUrl xPathQueryStr:@"//div[@class='topic-content text']"];
-    
-    
+        
+        
+        for (TFHppleElement *element in articleNodes)
+        {
+            
+            self.textView.text = [[element content] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            
+        }
+        
+        if(_newsElementDetail.imageUrl != nil)
+        {
+            NSArray* image = [_newsElementDetail imagesFromContent:_newsElementDetail.imageUrl];NSString *imageStringURL = [image objectAtIndex:0];
+            NSURL* imageURL = [NSURL URLWithString: imageStringURL];
+            [self.imageView setImageWithURL: imageURL];
+        }
+        else
+        {
+            self.imageView.image = [UIImage imageNamed:@"glnews.png"];
+        }
    
-    for (TFHppleElement *element in articleNodes)
-    {
- 
-       self.textView.text = [[element content] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
-    }
-    
-    if(_newsElementDetail.imageUrl != nil)
-    {
-        NSArray* image = [_newsElementDetail imagesFromContent:_newsElementDetail.imageUrl];NSString *imageStringURL = [image objectAtIndex:0];
-        NSURL* imageURL = [NSURL URLWithString: imageStringURL];
-        [self.imageView setImageWithURL: imageURL];
-    }
-    else
-    {
-        self.imageView.image = [UIImage imageNamed:@"glnews.png"];
-    }
     
     NSLog(@"%@",_newsElementDetail.imageUrl);
 }

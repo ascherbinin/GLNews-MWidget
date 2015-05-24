@@ -11,7 +11,7 @@
 #import "NewsElement.h"
 #import "TFHpple.h"
 #import "RDHelper.h"
-//#import ""
+
 
 @interface TodayWidgetViewController () <NCWidgetProviding>
 
@@ -22,23 +22,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    
-   // NSLog(@"%f",self.preferredContentSize.width);
-    // Do any additional setup after loading the view from its nib.
-    //_titleLabel.text =@"Title";
-   // _descriptionLabel.text = @"Descriptrion";
+   
     [self loadView];
     
+}
+
+- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer
+{
+    NSString *urlString = [NSString stringWithFormat:@"AppUrlType://home/"];
+    NSURL *pjURL = [NSURL URLWithString:urlString];
+    [self.extensionContext openURL:pjURL completionHandler:nil];
 }
 
 -(void)loadView
 {
     [super loadView];
     [self loadNews];
-    self.preferredContentSize = CGSizeMake(190, 90);
-    //self.view = [[UIView alloc] initWithFrame:(CGRectMake(0, 0, 190, 80))];
+    self.preferredContentSize = CGSizeMake(150, 75);
     
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleSingleTap:)];
     
+    [self.view addGestureRecognizer:singleFingerTap];
     
 }
 
@@ -51,19 +57,11 @@
     NSArray *newsNodes = [RDHelper requestData:newsUrl xPathQueryStr:@"//article"];
     
     
-    //[newsParser searchWithXPathQuery:newsXpathQueryString];
-    
-    
-    
     if ([newsNodes count] == 0)
         NSLog(@"Нету node");
     else
     {
         NSLog(@"Найдено %lu корневых элементов", (unsigned long)[newsNodes count]);
-        
-        
-        
-        //NSMutableArray *newNews = [[NSMutableArray alloc] initWithCapacity:0];
         
         for (TFHppleElement *element in newsNodes){
             
@@ -78,8 +76,6 @@
             TFHppleElement *descriptionElement = [subelement firstChildWithClassName:@"topic-content text"];
             TFHppleElement *titleElement =[subelement firstChildWithClassName:@"topic-header"] ;
             TFHppleElement *imageElement = [element firstChildWithClassName:@"preview"];
-            
-            //  (NSLog(@"Description element - %@",[[titleElement firstChildWithTagName:@"time"]content])) ;
             
             ne.titleText =[[[titleElement firstChildWithClassName:@"topic-title word-wrap"] content]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             
@@ -101,31 +97,27 @@
             [_objects addObject:ne];
         }
         
-        NewsElement *news = [_objects objectAtIndex:1];
+        NewsElement *news = [_objects objectAtIndex:0];
         NSArray* images = [news imagesFromContent:news.imageUrl];
         NSString *imageStringURL = [images objectAtIndex:0];
-        NSURL* imageURL = [NSURL URLWithString: imageStringURL];
+        NSData *data=[NSData dataWithContentsOfURL:[NSURL URLWithString:imageStringURL]];
 
         UIImageView *imageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 75, 75)];
         [imageView setContentMode:UIViewContentModeScaleAspectFill];
-        UIImage *image =[UIImage imageNamed:@"glnews.png"];
-        [imageView setImage: image];
-        [imageView setBackgroundColor:[UIColor whiteColor]];
-        [self.view addSubview:imageView];
-
-//        if(imageURL != nil)
-//        {
-//            
-//            
-//            //            //[cell.imageNews setImageWithURL: imageURL];
-//        }
-//        else
-//        {
-//            UIImage *image =[UIImage imageNamed:@"glnews.png"];
-//            //cell.imageNews.image = [UIImage imageNamed:@"glnews.png"];
-//        }
 
         
+        if(imageStringURL == nil)
+        {
+            UIImage *image =[UIImage imageNamed:@"glnews.png"];
+            [imageView setImage: image];
+        }
+        else
+        {
+            [imageView setImage: [UIImage imageWithData:data]];
+        }
+
+        [imageView setBackgroundColor:[UIColor whiteColor]];
+        [self.view addSubview:imageView];
         
         
        
@@ -140,7 +132,7 @@
         [titleLabel setText:[NSString stringWithString:news.dateNewsText]];
         [self.view addSubview:titleLabel];
         
-        UILabel *descriprionLabel = [[UILabel alloc] initWithFrame:CGRectMake(80,20, 150, 60)];
+        UILabel *descriprionLabel = [[UILabel alloc] initWithFrame:CGRectMake(80,25, 150, 60)];
         
         
         [descriprionLabel setTextColor:[UIColor lightGrayColor]];

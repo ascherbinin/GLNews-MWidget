@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>GLNews Widget.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
 		<key>GLNews.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
@@ -18,6 +23,11 @@
 			<true/>
 		</dict>
 		<key>847CCA511AF9B0D100810019</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>93E19D3A1B0455EE00171133</key>
 		<dict>
 			<key>primary</key>
 			<true/>

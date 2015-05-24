@@ -18,4 +18,6 @@
 
 @property int pageNumber;
 
+-(void)loadLastNewsForWidget;
+
 @end
