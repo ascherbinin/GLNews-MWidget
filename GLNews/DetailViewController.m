@@ -8,27 +8,29 @@
 
 #import "DetailViewController.h"
 #import "NewsElement.h"
+#import "ImageCollectionViewController.h"
 #import "UIImageView+AFNetworking.h"
 #import "TFHpple.h"
 #import "RDHelper.h"
 
 @interface DetailViewController ()  <UIActionSheetDelegate>
-
+@property NSArray* imageArray;
 @end
 
 @implementation DetailViewController
-
+@synthesize imageView;
+@synthesize contentView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithTitle:@"Open"
-                                                             style:UIBarButtonItemStylePlain
-                                                            target:self
-                                                            action:@selector(openNews)];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openNews)];
     self.navigationItem.rightBarButtonItem = item;
     
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTapGesture:)];
+    [imageView addGestureRecognizer:tapGesture];
     
-        [self reloadData];
+    [self reloadData];
     
    
     
@@ -44,6 +46,13 @@
     _newsElementDetail = reciveDetail;
 }
 
+- (void)imageViewTapGesture: (UITapGestureRecognizer *) gestureRecognizer
+{
+    
+    ImageCollectionViewController* imageCollectionVC = [[ImageCollectionViewController alloc] initWithArray:_imageArray];
+ 
+    [self.navigationController pushViewController:imageCollectionVC animated:YES];
+}
 
 
 -(void)openNews
@@ -53,6 +62,14 @@
     
     [actionSheet showInView:self.view];
 }
+
+-(void)openGallery
+{
+    
+    ImageCollectionViewController *imgCV = [[ImageCollectionViewController alloc]init];
+    [self.navigationController pushViewController:imgCV animated:YES];
+}
+
 
 -(void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
@@ -75,7 +92,7 @@
     
   
        NSArray *articleNodes = [RDHelper requestData:_newsElementDetail.articleUrl xPathQueryStr:@"//div[@class='topic-content text']"];
-        
+    //NSLog(@"%@",[[(TFHppleElement*)articleNodes objectAtIndex:1]content];
         self.navigationItem.title = _newsElementDetail.dateNewsText;
         self.titleLable.text = _newsElementDetail.titleText;
 
@@ -90,7 +107,9 @@
         
         if(_newsElementDetail.imageUrl != nil)
         {
-            NSArray* image = [_newsElementDetail imagesFromContent:_newsElementDetail.imageUrl];NSString *imageStringURL = [image objectAtIndex:0];
+            TFHppleElement *tempElement = [articleNodes objectAtIndex:0];
+             _imageArray = [_newsElementDetail imagesFromContent:[tempElement raw]];
+            NSString *imageStringURL = [_imageArray objectAtIndex:0];
             NSURL* imageURL = [NSURL URLWithString: imageStringURL];
             [self.imageView setImageWithURL: imageURL];
         }
@@ -103,14 +122,7 @@
     NSLog(@"%@",_newsElementDetail.imageUrl);
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+
 
 @end

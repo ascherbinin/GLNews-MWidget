@@ -25,6 +25,10 @@
 		84C688F71AF9E2EF00CCAB96 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C688F51AF9E2EF00CCAB96 /* MainViewController.m */; };
 		84C688F81AF9E2EF00CCAB96 /* MainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84C688F61AF9E2EF00CCAB96 /* MainViewController.xib */; };
 		84C688FB1AF9E70C00CCAB96 /* NewsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 84C688FA1AF9E70C00CCAB96 /* NewsElement.m */; };
+		93BF66261B1DB893008C3B8C /* ImageCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BF66241B1DB893008C3B8C /* ImageCollectionViewController.m */; };
+		93BF66271B1DB893008C3B8C /* ImageCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93BF66251B1DB893008C3B8C /* ImageCollectionViewController.xib */; };
+		93BF662C1B1DB8F1008C3B8C /* ImageCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BF662A1B1DB8F1008C3B8C /* ImageCollectionCell.m */; };
+		93BF662D1B1DB8F1008C3B8C /* ImageCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93BF662B1B1DB8F1008C3B8C /* ImageCollectionCell.xib */; };
 		93CA179A1B04A19500748ACF /* glnews.png in Resources */ = {isa = PBXBuildFile; fileRef = 93CA17991B04A19500748ACF /* glnews.png */; };
 		93CA179F1B04B55D00748ACF /* NewsElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CA179C1B04B55D00748ACF /* NewsElement.m */; };
 		93CA17A01B04B55D00748ACF /* RDHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CA179E1B04B55D00748ACF /* RDHelper.m */; };
@@ -105,6 +109,12 @@
 		84C688F61AF9E2EF00CCAB96 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		84C688F91AF9E70C00CCAB96 /* NewsElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsElement.h; sourceTree = "<group>"; };
 		84C688FA1AF9E70C00CCAB96 /* NewsElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsElement.m; sourceTree = "<group>"; };
+		93BF66231B1DB893008C3B8C /* ImageCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCollectionViewController.h; sourceTree = "<group>"; };
+		93BF66241B1DB893008C3B8C /* ImageCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCollectionViewController.m; sourceTree = "<group>"; };
+		93BF66251B1DB893008C3B8C /* ImageCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionViewController.xib; sourceTree = "<group>"; };
+		93BF66291B1DB8F1008C3B8C /* ImageCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCollectionCell.h; sourceTree = "<group>"; };
+		93BF662A1B1DB8F1008C3B8C /* ImageCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCollectionCell.m; sourceTree = "<group>"; };
+		93BF662B1B1DB8F1008C3B8C /* ImageCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionCell.xib; sourceTree = "<group>"; };
 		93CA17991B04A19500748ACF /* glnews.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = glnews.png; sourceTree = "<group>"; };
 		93CA179B1B04B55D00748ACF /* NewsElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsElement.h; sourceTree = "<group>"; };
 		93CA179C1B04B55D00748ACF /* NewsElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsElement.m; sourceTree = "<group>"; };
@@ -197,6 +207,10 @@
 		847CCA3B1AF9B0D100810019 /* GLNews */ = {
 			isa = PBXGroup;
 			children = (
+				93BF66221B1DB855008C3B8C /* ImageCollectionView */,
+				93BF66211B1DB532008C3B8C /* Helpers */,
+				93BF66201B1DB518008C3B8C /* DetailNews */,
+				93BF661E1B1DB4E8008C3B8C /* MainNewsTable */,
 				84C1315B1AFCA81E009B9D75 /* Resource */,
 				84BF0DE41AF9F3AA004AB5CB /* hpple */,
 				84BF0DE31AF9F361004AB5CB /* Model */,
@@ -204,17 +218,6 @@
 				847CCA411AF9B0D100810019 /* AppDelegate.m */,
 				847CCA491AF9B0D100810019 /* Images.xcassets */,
 				847CCA3C1AF9B0D100810019 /* Supporting Files */,
-				84C688EA1AF9DDDE00CCAB96 /* MainTableCell.h */,
-				84C688EB1AF9DDDE00CCAB96 /* MainTableCell.m */,
-				84C688EC1AF9DDDE00CCAB96 /* MainTableCell.xib */,
-				84C688F41AF9E2EF00CCAB96 /* MainViewController.h */,
-				84C688F51AF9E2EF00CCAB96 /* MainViewController.m */,
-				84C688F61AF9E2EF00CCAB96 /* MainViewController.xib */,
-				84C1302E1AFB2063009B9D75 /* DetailViewController.h */,
-				84C1302F1AFB2063009B9D75 /* DetailViewController.m */,
-				84C130301AFB2063009B9D75 /* DetailViewController.xib */,
-				84C131561AFC59CD009B9D75 /* RDHelper.m */,
-				84C131581AFC5A10009B9D75 /* RDHelper.h */,
 				84C1315E1AFCA925009B9D75 /* Launch Screen.xib */,
 			);
 			path = GLNews;
@@ -282,6 +285,67 @@
 				84C131591AFCA816009B9D75 /* glnews.png */,
 			);
 			name = Images;
+			sourceTree = "<group>";
+		};
+		93BF661E1B1DB4E8008C3B8C /* MainNewsTable */ = {
+			isa = PBXGroup;
+			children = (
+				93BF661F1B1DB50A008C3B8C /* TableCell */,
+				84C688F41AF9E2EF00CCAB96 /* MainViewController.h */,
+				84C688F51AF9E2EF00CCAB96 /* MainViewController.m */,
+				84C688F61AF9E2EF00CCAB96 /* MainViewController.xib */,
+			);
+			name = MainNewsTable;
+			sourceTree = "<group>";
+		};
+		93BF661F1B1DB50A008C3B8C /* TableCell */ = {
+			isa = PBXGroup;
+			children = (
+				84C688EA1AF9DDDE00CCAB96 /* MainTableCell.h */,
+				84C688EB1AF9DDDE00CCAB96 /* MainTableCell.m */,
+				84C688EC1AF9DDDE00CCAB96 /* MainTableCell.xib */,
+			);
+			name = TableCell;
+			sourceTree = "<group>";
+		};
+		93BF66201B1DB518008C3B8C /* DetailNews */ = {
+			isa = PBXGroup;
+			children = (
+				84C1302E1AFB2063009B9D75 /* DetailViewController.h */,
+				84C1302F1AFB2063009B9D75 /* DetailViewController.m */,
+				84C130301AFB2063009B9D75 /* DetailViewController.xib */,
+			);
+			name = DetailNews;
+			sourceTree = "<group>";
+		};
+		93BF66211B1DB532008C3B8C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				84C131561AFC59CD009B9D75 /* RDHelper.m */,
+				84C131581AFC5A10009B9D75 /* RDHelper.h */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
+		93BF66221B1DB855008C3B8C /* ImageCollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				93BF66281B1DB897008C3B8C /* CollectionCell */,
+				93BF66231B1DB893008C3B8C /* ImageCollectionViewController.h */,
+				93BF66241B1DB893008C3B8C /* ImageCollectionViewController.m */,
+				93BF66251B1DB893008C3B8C /* ImageCollectionViewController.xib */,
+			);
+			name = ImageCollectionView;
+			sourceTree = "<group>";
+		};
+		93BF66281B1DB897008C3B8C /* CollectionCell */ = {
+			isa = PBXGroup;
+			children = (
+				93BF66291B1DB8F1008C3B8C /* ImageCollectionCell.h */,
+				93BF662A1B1DB8F1008C3B8C /* ImageCollectionCell.m */,
+				93BF662B1B1DB8F1008C3B8C /* ImageCollectionCell.xib */,
+			);
+			name = CollectionCell;
 			sourceTree = "<group>";
 		};
 		93CA17AA1B04B5CA00748ACF /* hpple */ = {
@@ -429,10 +493,12 @@
 			files = (
 				84C688EE1AF9DDDE00CCAB96 /* MainTableCell.xib in Resources */,
 				84C130321AFB2063009B9D75 /* DetailViewController.xib in Resources */,
+				93BF66271B1DB893008C3B8C /* ImageCollectionViewController.xib in Resources */,
 				84C688F81AF9E2EF00CCAB96 /* MainViewController.xib in Resources */,
 				84C1315A1AFCA817009B9D75 /* glnews.png in Resources */,
 				847CCA4A1AF9B0D100810019 /* Images.xcassets in Resources */,
 				84C1315F1AFCA925009B9D75 /* Launch Screen.xib in Resources */,
+				93BF662D1B1DB8F1008C3B8C /* ImageCollectionCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -495,9 +561,11 @@
 				84C688ED1AF9DDDE00CCAB96 /* MainTableCell.m in Sources */,
 				84BF0DEC1AF9F3E8004AB5CB /* TFHppleElement.m in Sources */,
 				84C130311AFB2063009B9D75 /* DetailViewController.m in Sources */,
+				93BF66261B1DB893008C3B8C /* ImageCollectionViewController.m in Sources */,
 				84BF0DED1AF9F3E8004AB5CB /* XPathQuery.m in Sources */,
 				84BF0DEB1AF9F3E8004AB5CB /* TFHpple.m in Sources */,
 				84C131571AFC59CE009B9D75 /* RDHelper.m in Sources */,
+				93BF662C1B1DB8F1008C3B8C /* ImageCollectionCell.m in Sources */,
 				84C688FB1AF9E70C00CCAB96 /* NewsElement.m in Sources */,
 				847CCA421AF9B0D100810019 /* AppDelegate.m in Sources */,
 				847CCA3F1AF9B0D100810019 /* main.m in Sources */,

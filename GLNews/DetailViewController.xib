@@ -9,7 +9,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController">
             <connections>
                 <outlet property="contentView" destination="V6B-CT-U9v" id="Yto-5a-Xfi"/>
-                <outlet property="imageView" destination="kWS-XM-yof" id="dk9-54-xgN"/>
+                <outlet property="imageView" destination="kWS-XM-yof" id="s5q-a6-JUT"/>
                 <outlet property="scrollView" destination="dzH-9j-hiJ" id="rQ6-Yw-dCU"/>
                 <outlet property="textView" destination="BgT-hM-V8C" id="ZZf-6h-IkT"/>
                 <outlet property="titleLable" destination="VVV-n8-GDo" id="SrZ-l3-f0k"/>
@@ -24,10 +24,10 @@
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dzH-9j-hiJ">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <subviews>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V6B-CT-U9v">
+                        <view clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="V6B-CT-U9v">
                             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             <subviews>
-                                <imageView opaque="NO" userInteractionEnabled="NO" alpha="0.79999999999999982" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kWS-XM-yof">
+                                <imageView opaque="NO" alpha="0.79999999999999982" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kWS-XM-yof">
                                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                                     <constraints>
                                         <constraint firstAttribute="height" constant="250" id="RqH-l1-VIj">
@@ -95,16 +95,16 @@
                                 <constraint firstItem="BgT-hM-V8C" firstAttribute="leading" secondItem="V6B-CT-U9v" secondAttribute="leadingMargin" id="DiB-jW-N1C"/>
                                 <constraint firstItem="kWS-XM-yof" firstAttribute="centerX" secondItem="BgT-hM-V8C" secondAttribute="centerX" id="Tli-rl-rAR"/>
                                 <constraint firstItem="BgT-hM-V8C" firstAttribute="top" secondItem="V6B-CT-U9v" secondAttribute="top" constant="376" id="Wkm-tc-lpJ">
-                                    <variation key="heightClass=regular-widthClass=compact" constant="346"/>
+                                    <variation key="heightClass=regular-widthClass=compact" constant="372"/>
                                 </constraint>
                                 <constraint firstItem="kWS-XM-yof" firstAttribute="top" secondItem="V6B-CT-U9v" secondAttribute="top" constant="128" id="Y6k-1V-89r">
-                                    <variation key="heightClass=regular-widthClass=compact" constant="43"/>
+                                    <variation key="heightClass=regular-widthClass=compact" constant="74"/>
                                 </constraint>
                                 <constraint firstAttribute="bottom" secondItem="BgT-hM-V8C" secondAttribute="bottom" constant="-38" id="alg-nU-vIX">
-                                    <variation key="heightClass=regular-widthClass=compact" constant="0.0"/>
+                                    <variation key="heightClass=regular-widthClass=compact" constant="-26"/>
                                 </constraint>
                                 <constraint firstItem="VVV-n8-GDo" firstAttribute="bottom" secondItem="kWS-XM-yof" secondAttribute="bottom" id="ktj-Ir-7Lv">
-                                    <variation key="heightClass=regular-widthClass=compact" constant="50"/>
+                                    <variation key="heightClass=regular-widthClass=compact" constant="45"/>
                                 </constraint>
                                 <constraint firstAttribute="trailing" secondItem="VVV-n8-GDo" secondAttribute="trailing" constant="19" id="lCW-Mt-rff">
                                     <variation key="heightClass=regular-widthClass=compact" constant="8"/>

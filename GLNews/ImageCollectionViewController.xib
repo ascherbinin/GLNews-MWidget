@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ImageCollectionViewController">
+            <connections>
+                <outlet property="collectionView" destination="2Na-IQ-7Ax" id="Q5j-Of-tNE"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" canCancelContentTouches="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="2Na-IQ-7Ax">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="G0t-WG-mJF">
+                        <size key="itemSize" width="300" height="300"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="yVW-0y-W3a"/>
+                        <outlet property="delegate" destination="-1" id="2j3-Lf-Apr"/>
+                    </connections>
+                </collectionView>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="2Na-IQ-7Ax" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="cH0-oG-AmR"/>
+                <constraint firstAttribute="trailing" secondItem="2Na-IQ-7Ax" secondAttribute="trailing" id="gmV-1Z-W61"/>
+                <constraint firstItem="2Na-IQ-7Ax" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="h0y-ZM-yzD"/>
+                <constraint firstAttribute="bottom" secondItem="2Na-IQ-7Ax" secondAttribute="bottom" id="hWu-qZ-wXX"/>
+            </constraints>
+            <variation key="default">
+                <mask key="subviews">
+                    <exclude reference="2Na-IQ-7Ax"/>
+                </mask>
+                <mask key="constraints">
+                    <exclude reference="cH0-oG-AmR"/>
+                    <exclude reference="gmV-1Z-W61"/>
+                    <exclude reference="h0y-ZM-yzD"/>
+                    <exclude reference="hWu-qZ-wXX"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=compact">
+                <mask key="subviews">
+                    <include reference="2Na-IQ-7Ax"/>
+                </mask>
+                <mask key="constraints">
+                    <include reference="cH0-oG-AmR"/>
+                    <include reference="gmV-1Z-W61"/>
+                    <include reference="h0y-ZM-yzD"/>
+                    <include reference="hWu-qZ-wXX"/>
+                </mask>
+            </variation>
+        </view>
+    </objects>
+</document>
