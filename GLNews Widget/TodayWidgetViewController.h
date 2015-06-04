@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface TodayWidgetViewController : UIViewController
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
+@property (strong, nonatomic) IBOutlet UILabel *titleLabel;
+@property (strong, nonatomic) IBOutlet UILabel *dataLabel;
 
 
 @property (strong, nonatomic) NSMutableArray *objects;

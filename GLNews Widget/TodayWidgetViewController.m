@@ -23,10 +23,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.preferredContentSize = CGSizeMake(200, 75);
-
+    
+    
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleSingleTap:)];
+    
+    [self.view addGestureRecognizer:singleFingerTap];
+    self.preferredContentSize = CGSizeMake(200, 80);
+    [self loadNews];
   
-    [self loadView];
+
     
 }
 
@@ -35,21 +42,6 @@
     NSString *urlString = [NSString stringWithFormat:@"AppUrlType://home/"];
     NSURL *pjURL = [NSURL URLWithString:urlString];
     [self.extensionContext openURL:pjURL completionHandler:nil];
-}
-
--(void)loadView
-{
-    [super loadView];
-    
-    
-    [self loadNews];
-    
-    UITapGestureRecognizer *singleFingerTap =
-    [[UITapGestureRecognizer alloc] initWithTarget:self
-                                            action:@selector(handleSingleTap:)];
-    
-    [self.view addGestureRecognizer:singleFingerTap];
-    
 }
 
 -(void)loadNews
@@ -80,51 +72,23 @@
         NSString *imageStringURL = [images objectAtIndex:0];
         NSData *data=[NSData dataWithContentsOfURL:[NSURL URLWithString:imageStringURL]];
 
-        UIImageView *imageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 75, 75)];
-        [imageView setContentMode:UIViewContentModeScaleAspectFill];
-        [imageView setBackgroundColor:[UIColor whiteColor]];
+        //UIImageView *imageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 75, 75)];
+        //[self.imageView setContentMode:UIViewContentModeScaleAspectFill];
+        //[self.imageView setBackgroundColor:[UIColor whiteColor]];
         
         if(imageStringURL == nil)
         {
             UIImage *image =[UIImage imageNamed:@"glnews.png"];
-            [imageView setImage: image];
+            [self.imageView setImage: image];
         }
         else
         {
-            [imageView setImage: [UIImage imageWithData:data]];
+            [self.imageView setImage: [UIImage imageWithData:data]];
         }
 
-        
-        [self.view addSubview:imageView];
-        
-        
-       
-        
-       
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 5, 175, 40)];
-        
-        [titleLabel setTextColor:[UIColor whiteColor]];
-        [titleLabel setBackgroundColor:[UIColor clearColor]];
-        [titleLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 14.0f]];
-        titleLabel.numberOfLines =2;
-        titleLabel.text = news.titleText;
-        
-        [self.view addSubview:titleLabel];
-        
-        UILabel *descriprionLabel = [[UILabel alloc] initWithFrame:CGRectMake(80,15, 150, 65)];
-        
-        
-        [descriprionLabel setTextColor:[UIColor lightGrayColor]];
-        [descriprionLabel setBackgroundColor:[UIColor clearColor]];
-        [descriprionLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 12.0f]];
-        descriprionLabel.numberOfLines =0;
-        descriprionLabel.text = news.dateNewsText;
-        [self.view addSubview:descriprionLabel];
-
-        
-        
-       
-        
+ 
+        self.titleLabel.text = news.titleText;
+        self.dataLabel.text = news.dateNewsText;
     }
 }
 
