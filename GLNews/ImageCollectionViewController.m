@@ -22,7 +22,7 @@
     [super viewDidLoad];
     
     
-    [collectionView registerNib:[UINib nibWithNibName:@"ImageCollectionCell" bundle:nil] forCellWithReuseIdentifier:@"ImageCell"];
+    [collectionView registerNib:[UINib nibWithNibName:@"ImageCollectionCell" bundle:nil] forCellWithReuseIdentifier:@"ImageCell"]; //регистрация nib файла для кастомной ячейки галереи.
     
 }
 
@@ -38,6 +38,7 @@
     
 }
 
+//Инициализация контроллера с входящим массивом
 -(id)initWithArray:(NSArray *)photoArray andIndexPath:(NSIndexPath *)imageIndexPath
 {
     self = [super init];
@@ -50,37 +51,35 @@
     return  self;
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-}
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
 }
 
+//Метод который устанавливает количество элементов в коллекции из количества элементов массива
 -(NSInteger) collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return  [_photoArray count];
 }
 
-
+//Ининциализация ячеек коллекции из полученного массива.
 -(UICollectionViewCell*) collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     ImageCollectionCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"ImageCell" forIndexPath:indexPath];
     NSString *imageStringURL = [_photoArray objectAtIndex:indexPath.row];
     NSURL* imageURL = [NSURL URLWithString: imageStringURL];
-    [cell.imageView setImageWithURL:imageURL];
     
-    return cell;
+    [cell.imageView setImageWithURL:imageURL];
+       return cell;
 }
 
+//Метод который задает размеры ячейки в коллекции.
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height-240);
+    return CGSizeMake(self.view.frame.size.width, self.view.frame.size.height-240); //Размер по ширине на весь экран по высоте экран-240 пунктов.
 }
+
 
 
 

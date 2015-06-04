@@ -20,17 +20,21 @@
 @implementation DetailViewController
 @synthesize imageView;
 @synthesize contentView;
+@synthesize galleryCount;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    
+    //Создание кнопки в navigation bar для открытия новости в браузере
     UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(openNews)];
     self.navigationItem.rightBarButtonItem = item;
     
+    //Создание и инициализация менеджера тапо по изображению, для перехода по тапу в галлерею
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(imageViewTapGesture:)];
     [imageView addGestureRecognizer:tapGesture];
     
-    [self reloadData];
+    [self reloadData]; //Загрузка всех основных данных
     
    
     
@@ -41,33 +45,31 @@
     
 }
 
+//Метод связка для передачи в detail controller данных по выбранной новости из main controller
 -(void) setDetails:(NewsElement*)reciveDetail;
 {
     _newsElementDetail = reciveDetail;
 }
 
+//Метод для обработки тапа по картинке внутри новости
 - (void)imageViewTapGesture: (UITapGestureRecognizer *) gestureRecognizer
 {
-    
+    if([_imageArray count]!=0)
+    {
+    //Инициализация коллекции с передачей в нее массива с фотографиями
     ImageCollectionViewController* imageCollectionVC = [[ImageCollectionViewController alloc] initWithArray:_imageArray];
  
     [self.navigationController pushViewController:imageCollectionVC animated:YES];
+    }
 }
 
-
+//Метод открытия новости в браузере
 -(void)openNews
 {
    
     UIActionSheet *actionSheet = [[UIActionSheet alloc]initWithTitle:nil delegate:self cancelButtonTitle:@"Назад" destructiveButtonTitle:nil otherButtonTitles:@"Открыть в браузере", nil];
     
     [actionSheet showInView:self.view];
-}
-
--(void)openGallery
-{
-    
-    ImageCollectionViewController *imgCV = [[ImageCollectionViewController alloc]init];
-    [self.navigationController pushViewController:imgCV animated:YES];
 }
 
 
@@ -82,6 +84,8 @@
     }
 }
 
+
+//Загрука дополнительных данных для отображения полной новости.
 -(void) reloadData
 {
     if(!_newsElementDetail)
@@ -90,13 +94,14 @@
         return;
     }
     
+    //Установка основных элементов detail controller
   
        NSArray *articleNodes = [RDHelper requestData:_newsElementDetail.articleUrl xPathQueryStr:@"//div[@class='topic-content text']"];
-    //NSLog(@"%@",[[(TFHppleElement*)articleNodes objectAtIndex:1]content];
+    
         self.navigationItem.title = _newsElementDetail.dateNewsText;
         self.titleLable.text = _newsElementDetail.titleText;
 
-        
+     //Загрузка текста описания
         
         for (TFHppleElement *element in articleNodes)
         {
@@ -104,19 +109,31 @@
             self.textView.text = [[element content] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
             
         }
-        
+    
+    //Работа с изображением
+    
         if(_newsElementDetail.imageUrl != nil)
         {
             TFHppleElement *tempElement = [articleNodes objectAtIndex:0];
              _imageArray = [_newsElementDetail imagesFromContent:[tempElement raw]];
-            NSString *imageStringURL = [_imageArray objectAtIndex:0];
-            NSURL* imageURL = [NSURL URLWithString: imageStringURL];
-            [self.imageView setImageWithURL: imageURL];
+            
+            if ([_imageArray count] >0) {
+                self.galleryCount.text = [NSString stringWithFormat:@"Фото: %lu",(unsigned long)[_imageArray count]]; //Отображение количества фотографий в галлереии к данной новости.
+                [self.imageView setImageWithURL:[NSURL URLWithString:[_imageArray objectAtIndex:0]]];
+            }
+            else
+            {
+                [self.imageView setImageWithURL:[NSURL URLWithString:_newsElementDetail.imageUrl]];
+            }
+            
+            
         }
         else
         {
             self.imageView.image = [UIImage imageNamed:@"glnews.png"];
         }
+    
+    
    
     
     NSLog(@"%@",_newsElementDetail.imageUrl);

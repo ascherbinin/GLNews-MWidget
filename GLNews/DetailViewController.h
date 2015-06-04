@@ -18,6 +18,7 @@
 @property (strong, nonatomic) IBOutlet UITextView *textView;
 
 @property (nonatomic,strong) NewsElement *newsElementDetail;
+@property (strong, nonatomic) IBOutlet UILabel *galleryCount;
 
 
 

@@ -20,7 +20,7 @@
 @synthesize articleUrl = url;
 
 
-
+//Метод получения массива ссылок на изображения из html кода.
 -(NSArray *)imagesFromContent:(NSString*)contentStr
 {
     if (contentStr) {
@@ -29,7 +29,8 @@
     
     return nil;
 }
-#pragma mark - retrieve images from html string using regexp (private methode)
+
+
 
 -(NSArray *)imagesFromHTMLString:(NSString *)htmlstr
 {

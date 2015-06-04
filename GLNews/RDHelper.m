@@ -19,6 +19,8 @@
 
 @implementation RDHelper
 
+
+//Метод для получения массива элементов рахобранных с помощью xpath
 +(NSArray*)requestData:(NSURL*)urlString xPathQueryStr:(NSString*)xpathQueryString
 {
     
@@ -33,6 +35,8 @@
     return newNodes;
 }
 
+
+//Метод который разбирает элементы переданного массива и возвращает массив из рабранного html кода страницы на огтдельные новости [NewsElement]
 +(NSMutableArray*)parsArray:(NSArray*)arrayToPars
 {
     NSMutableArray *tempMArray = [[NSMutableArray alloc]init];

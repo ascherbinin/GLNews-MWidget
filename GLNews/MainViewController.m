@@ -14,11 +14,6 @@
 #import "UIImageView+AFNetworking.h"
 #import "RDHelper.h"
 
-@interface MainViewController ()
-{
-   
-}
-@end
 
 @implementation MainViewController
 
@@ -32,16 +27,15 @@
     [super viewDidLoad];
     
     
-    self.navigationItem.title = @"Новости";
-    pageNumber =1;
+    self.navigationItem.title = @"Новости"; //Изменение заголовка в navigation bar.
+    pageNumber =1;//Переменная для подсчета текущей страницы.
 
-    [self loadNews];
+    [self loadNews]; // Загрузка новостей на текущей странице.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
+  }
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -55,14 +49,16 @@
     return self;
 }
 
+
+//Метод для построничной загрузки новостей с live.goodline.info
 -(void)loadNews
 {
-  
+        // Получение ссылки на текущую страницу live.goodline.info
         NSURL *newsUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://live.goodline.info/guest/page%d",pageNumber]];
         
-        
+        //Массив элементов в теге article на странице live.goodline.info
         NSArray *newsNodes = [RDHelper requestData:newsUrl xPathQueryStr:@"//article"];
-        
+    
         if ([newsNodes count] == 0)
             NSLog(@"Нету node");
         else
@@ -70,22 +66,26 @@
             NSLog(@"Найдено %lu корневых элементов", (unsigned long)[newsNodes count]);
             
             for (NSMutableArray *arr in [RDHelper parsArray:newsNodes]) {
+                //Добавлением в основной массив _objects, полученных из запроса элементов с помощью хелпера RDHelper.
                 [_objects addObject:arr];
             }
             
-           // [_objects addObjectsFromArray:[RDHelper parsArray:newsNodes]];
+        
             
         }
    
-            [self.tableView reloadData];
+            [self.tableView reloadData]; // Перезагрузка данных в таблице после получения все новостей на странице.
     
 }
 
+//Метод для загрузки последней новости при переходе из виджета
+
 -(void) loadLastNewsForWidget
 {
+    //Создание контроллера для отображения полного текста последней новости
     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
     
-    if(!_objects.count>0)
+    if(!_objects.count>0) //Проверка наличия загруженных новостей
     {
         [self loadNews];
     }
@@ -102,29 +102,27 @@
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
-#pragma mark - Table view data source
+#pragma mark - Работа с data source таблицы
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 1;
+       return 1;
 }
 
 
 
-
+//Метод для установки высоты ячейки
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 100;
 }
 
+//Метод для установки количества ячеек в таблице в зависимости от количества элементов в массиве _objects
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    // Return the number of rows in the section.
-    // Usually the number of items in your array (the one that holds your list)
-    return [_objects count];
+       return [_objects count];
 }
 
 
 
-
+//Инициализация каждой ячейки в таблице
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
   
@@ -149,7 +147,7 @@
     }
     else
     {
-        cell.imageNews.image = [UIImage imageNamed:@"glnews.png"];
+        cell.imageNews.image = [UIImage imageNamed:@"glnews.png"]; //Подгрузка картинки заглушки, если нет картинки у новости.
     }
     cell.titleNews.text = news.titleText;
     cell.descriptionNews.text = news.descriptionText;
@@ -161,35 +159,36 @@
     return cell;
 }
 
-#pragma mark - Table view delegate
+#pragma mark - Работа с делегатом таблицы
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-    // If you want to push another view upon tapping one of the cells on your table.
+  
     
-    
+    //Создание контроллера для отображения полного текста новости
     DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
     
     if(indexPath)
     {
+        //Получение одной новости из массива в зависимости от выбранной ячейки
         NewsElement *news = [_objects objectAtIndex:indexPath.row];
+        //Передача данных новости в контроллер.
         [detailViewController setDetails:news];
     }
-    // ...
-    // Pass the selected object to the new view controller.
+   
     [self.navigationController pushViewController:detailViewController animated:YES];
     
 }
 
-
+//Функция которая при прокрутке до каждого 7 элемента подгружает следующую страницу live.goodline.info
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // issue when dragin to the VERY last cell
+
     
-    NSInteger totalRow = [tableView numberOfRowsInSection:indexPath.section];//first get total rows in that section by current indexPath.
+    NSInteger totalRow = [tableView numberOfRowsInSection:indexPath.section]; //Общее количество ячеек в главной таблице.
+   
     if(indexPath.row == totalRow -3)
     {
-              NSLog([NSString stringWithFormat:@"Page Number - %d",pageNumber+1]);
+              NSLog(@"Page Number - %d",(int)pageNumber+1);
             pageNumber += 1;
             [self loadNews];
         
@@ -198,55 +197,5 @@
     }
 }
 
-
-
-/*
- // Override to support conditional editing of the table view.
- - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
- // Return NO if you do not want the specified item to be editable.
- return YES;
- }
- */
-
-/*
- // Override to support editing the table view.
- - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
- if (editingStyle == UITableViewCellEditingStyleDelete) {
- // Delete the row from the data source
- [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
- }
- else if (editingStyle == UITableViewCellEditingStyleInsert) {
- // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
- }
- }
- */
-
-/*
- // Override to support rearranging the table view.
- - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
- {
- }
- */
-
-/*
- // Override to support conditional rearranging of the table view.
- - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
- {
- // Return NO if you do not want the item to be re-orderable.
- return YES;
- }
- */
-
-
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
