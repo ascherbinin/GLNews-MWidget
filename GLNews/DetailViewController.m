@@ -57,9 +57,10 @@
     if([_imageArray count]!=0)
     {
     //Инициализация коллекции с передачей в нее массива с фотографиями
-    ImageCollectionViewController* imageCollectionVC = [[ImageCollectionViewController alloc] initWithArray:_imageArray];
+        _imageVC = nil;
+    _imageVC = [[ImageCollectionViewController alloc] initWithArray:_imageArray];
  
-    [self.navigationController pushViewController:imageCollectionVC animated:YES];
+    [self.navigationController pushViewController:_imageVC animated:YES];
     }
 }
 
@@ -118,7 +119,9 @@
              _imageArray = [_newsElementDetail imagesFromContent:[tempElement raw]];
             
             if ([_imageArray count] >0) {
-                self.galleryCount.text = [NSString stringWithFormat:@"Фото: %lu",(unsigned long)[_imageArray count]]; //Отображение количества фотографий в галлереии к данной новости.
+                //Отображение количества фотографий в галлереии к данной новости.
+                self.galleryCount.text = [NSString stringWithFormat:@"Фото: %lu",(unsigned long)[_imageArray count]];
+                
                 [self.imageView setImageWithURL:[NSURL URLWithString:[_imageArray objectAtIndex:0]]];
             }
             else

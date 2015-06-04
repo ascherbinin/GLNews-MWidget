@@ -165,17 +165,18 @@
   
     
     //Создание контроллера для отображения полного текста новости
-    DetailViewController *detailViewController = [[DetailViewController alloc] initWithNibName:@"DetailViewController" bundle:nil];
+    _detailViewController = nil;
+    _detailViewController = [[DetailViewController alloc] init];
     
     if(indexPath)
     {
         //Получение одной новости из массива в зависимости от выбранной ячейки
         NewsElement *news = [_objects objectAtIndex:indexPath.row];
         //Передача данных новости в контроллер.
-        [detailViewController setDetails:news];
+        [_detailViewController setDetails:news];
     }
    
-    [self.navigationController pushViewController:detailViewController animated:YES];
+    [self.navigationController pushViewController:_detailViewController animated:YES];
     
 }
 

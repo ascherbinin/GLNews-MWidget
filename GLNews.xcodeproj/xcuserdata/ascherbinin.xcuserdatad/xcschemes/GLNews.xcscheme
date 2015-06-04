@@ -34,6 +34,20 @@
                ReferencedContainer = "container:GLNews.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "93E19D3A1B0455EE00171133"
+               BuildableName = "GLNews Widget.appex"
+               BlueprintName = "GLNews Widget"
+               ReferencedContainer = "container:GLNews.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction

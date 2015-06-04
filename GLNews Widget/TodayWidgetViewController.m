@@ -19,10 +19,13 @@
 
 @implementation TodayWidgetViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-   
+    self.preferredContentSize = CGSizeMake(200, 75);
+
+  
     [self loadView];
     
 }
@@ -37,8 +40,9 @@
 -(void)loadView
 {
     [super loadView];
+    
+    
     [self loadNews];
-    self.preferredContentSize = CGSizeMake(150, 75);
     
     UITapGestureRecognizer *singleFingerTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -55,48 +59,22 @@
     
     
     NSArray *newsNodes = [RDHelper requestData:newsUrl xPathQueryStr:@"//article"];
+
     
     
-    if ([newsNodes count] == 0)
-        NSLog(@"Нету node");
+    for (NSMutableArray *arr in [RDHelper parsArray:newsNodes]) {
+        //Добавлением в основной массив _objects, полученных из запроса элементов с помощью хелпера RDHelper.
+        [_objects addObject:arr];
+        
+        if([_objects count]==1)
+            break;
+    }
+
+    
+    if ([_objects count] == 0)
+        NSLog(@"Нет загруженной последней новости");
     else
     {
-        NSLog(@"Найдено %lu корневых элементов", (unsigned long)[newsNodes count]);
-        
-        for (TFHppleElement *element in newsNodes){
-            
-            
-            
-            
-            NewsElement *ne = [[NewsElement alloc]init];
-            
-            
-            
-            TFHppleElement *subelement = [element firstChildWithClassName:@"wraps out-topic"];
-            TFHppleElement *descriptionElement = [subelement firstChildWithClassName:@"topic-content text"];
-            TFHppleElement *titleElement =[subelement firstChildWithClassName:@"topic-header"] ;
-            TFHppleElement *imageElement = [element firstChildWithClassName:@"preview"];
-            
-            ne.titleText =[[[titleElement firstChildWithClassName:@"topic-title word-wrap"] content]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            
-            ne.descriptionText =[[descriptionElement content] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            
-            NSString *dateString = [[[titleElement firstChildWithTagName:@"time"]content]stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            ne.dateNewsText = dateString;
-            
-            TFHppleElement *imageNode = [[imageElement firstChildWithTagName:@"a"] firstChildWithTagName:@"img"];
-            
-            ne.imageUrl = [imageNode objectForKey:@"src"];
-            
-            
-            
-            NSString *urlString = [[[titleElement firstChildWithTagName:@"h2"]firstChildWithTagName:@"a"] objectForKey:@"href"];
-            ne.articleUrl =[NSURL URLWithString:urlString];
-            
-            
-            [_objects addObject:ne];
-        }
-        
         NewsElement *news = [_objects objectAtIndex:0];
         NSArray* images = [news imagesFromContent:news.imageUrl];
         NSString *imageStringURL = [images objectAtIndex:0];
@@ -104,7 +82,7 @@
 
         UIImageView *imageView=[[UIImageView alloc] initWithFrame:CGRectMake(0, 5, 75, 75)];
         [imageView setContentMode:UIViewContentModeScaleAspectFill];
-
+        [imageView setBackgroundColor:[UIColor whiteColor]];
         
         if(imageStringURL == nil)
         {
@@ -116,30 +94,31 @@
             [imageView setImage: [UIImage imageWithData:data]];
         }
 
-        [imageView setBackgroundColor:[UIColor whiteColor]];
+        
         [self.view addSubview:imageView];
         
         
        
         
-        
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 15, 150, 30)];
+       
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(80, 5, 175, 40)];
         
         [titleLabel setTextColor:[UIColor whiteColor]];
         [titleLabel setBackgroundColor:[UIColor clearColor]];
-        [titleLabel setFont:[UIFont fontWithName: @"Trebuchet MS-Bold" size: 10.0f]];
-        titleLabel.numberOfLines =1;
-        [titleLabel setText:[NSString stringWithString:news.dateNewsText]];
+        [titleLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 14.0f]];
+        titleLabel.numberOfLines =2;
+        titleLabel.text = news.titleText;
+        
         [self.view addSubview:titleLabel];
         
-        UILabel *descriprionLabel = [[UILabel alloc] initWithFrame:CGRectMake(80,25, 150, 60)];
+        UILabel *descriprionLabel = [[UILabel alloc] initWithFrame:CGRectMake(80,15, 150, 65)];
         
         
         [descriprionLabel setTextColor:[UIColor lightGrayColor]];
         [descriprionLabel setBackgroundColor:[UIColor clearColor]];
-        [descriprionLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 15.0f]];
+        [descriprionLabel setFont:[UIFont fontWithName: @"Trebuchet MS" size: 12.0f]];
         descriprionLabel.numberOfLines =0;
-        [descriprionLabel setText:[NSString stringWithString:news.titleText]];
+        descriprionLabel.text = news.dateNewsText;
         [self.view addSubview:descriprionLabel];
 
         
@@ -148,6 +127,7 @@
         
     }
 }
+
 
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -163,15 +143,11 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+  
 }
 
 - (void)widgetPerformUpdateWithCompletionHandler:(void (^)(NCUpdateResult))completionHandler {
-    // Perform any setup necessary in order to update the view.
-    
-    // If an error is encountered, use NCUpdateResultFailed
-    // If there's no update required, use NCUpdateResultNoData
-    // If there's an update, use NCUpdateResultNewData
+
 
     completionHandler(NCUpdateResultNewData);
 }

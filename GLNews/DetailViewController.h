@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "NewsElement.h"
+#import "ImageCollectionViewController.h"
 
 @interface DetailViewController : UIViewController<UIGestureRecognizerDelegate>
 
@@ -20,6 +21,8 @@
 @property (nonatomic,strong) NewsElement *newsElementDetail;
 @property (strong, nonatomic) IBOutlet UILabel *galleryCount;
 
+
+@property (strong, nonatomic) ImageCollectionViewController *imageVC;
 
 
 
