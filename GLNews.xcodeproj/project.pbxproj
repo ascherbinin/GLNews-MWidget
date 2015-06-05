@@ -30,6 +30,8 @@
 		934BA4B41B202D3B003926AB /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BF0DE61AF9F3E8004AB5CB /* TFHpple.m */; };
 		934BA4B51B202D3F003926AB /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BF0DE81AF9F3E8004AB5CB /* TFHppleElement.m */; };
 		934BA4B61B202D4B003926AB /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 84BF0DEA1AF9F3E8004AB5CB /* XPathQuery.m */; };
+		934BA4BE1B215A83003926AB /* LoadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 934BA4BC1B215A83003926AB /* LoadCell.m */; };
+		934BA4BF1B215A83003926AB /* LoadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 934BA4BD1B215A83003926AB /* LoadCell.xib */; };
 		93BF66261B1DB893008C3B8C /* ImageCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BF66241B1DB893008C3B8C /* ImageCollectionViewController.m */; };
 		93BF66271B1DB893008C3B8C /* ImageCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 93BF66251B1DB893008C3B8C /* ImageCollectionViewController.xib */; };
 		93BF662C1B1DB8F1008C3B8C /* ImageCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 93BF662A1B1DB8F1008C3B8C /* ImageCollectionCell.m */; };
@@ -109,6 +111,9 @@
 		84C688F61AF9E2EF00CCAB96 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
 		84C688F91AF9E70C00CCAB96 /* NewsElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsElement.h; sourceTree = "<group>"; };
 		84C688FA1AF9E70C00CCAB96 /* NewsElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsElement.m; sourceTree = "<group>"; };
+		934BA4BB1B215A83003926AB /* LoadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadCell.h; sourceTree = "<group>"; };
+		934BA4BC1B215A83003926AB /* LoadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadCell.m; sourceTree = "<group>"; };
+		934BA4BD1B215A83003926AB /* LoadCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoadCell.xib; sourceTree = "<group>"; };
 		93BF66231B1DB893008C3B8C /* ImageCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageCollectionViewController.h; sourceTree = "<group>"; };
 		93BF66241B1DB893008C3B8C /* ImageCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageCollectionViewController.m; sourceTree = "<group>"; };
 		93BF66251B1DB893008C3B8C /* ImageCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionViewController.xib; sourceTree = "<group>"; };
@@ -277,9 +282,20 @@
 			name = Images;
 			sourceTree = "<group>";
 		};
+		934BA4BA1B215A50003926AB /* LoadCell */ = {
+			isa = PBXGroup;
+			children = (
+				934BA4BB1B215A83003926AB /* LoadCell.h */,
+				934BA4BC1B215A83003926AB /* LoadCell.m */,
+				934BA4BD1B215A83003926AB /* LoadCell.xib */,
+			);
+			name = LoadCell;
+			sourceTree = "<group>";
+		};
 		93BF661E1B1DB4E8008C3B8C /* MainNewsTable */ = {
 			isa = PBXGroup;
 			children = (
+				934BA4BA1B215A50003926AB /* LoadCell */,
 				93BF661F1B1DB50A008C3B8C /* TableCell */,
 				84C688F41AF9E2EF00CCAB96 /* MainViewController.h */,
 				84C688F51AF9E2EF00CCAB96 /* MainViewController.m */,
@@ -463,6 +479,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				934BA4BF1B215A83003926AB /* LoadCell.xib in Resources */,
 				84C688EE1AF9DDDE00CCAB96 /* MainTableCell.xib in Resources */,
 				84C130321AFB2063009B9D75 /* DetailViewController.xib in Resources */,
 				93BF66271B1DB893008C3B8C /* ImageCollectionViewController.xib in Resources */,
@@ -532,6 +549,7 @@
 			files = (
 				84C688ED1AF9DDDE00CCAB96 /* MainTableCell.m in Sources */,
 				84BF0DEC1AF9F3E8004AB5CB /* TFHppleElement.m in Sources */,
+				934BA4BE1B215A83003926AB /* LoadCell.m in Sources */,
 				84C130311AFB2063009B9D75 /* DetailViewController.m in Sources */,
 				93BF66261B1DB893008C3B8C /* ImageCollectionViewController.m in Sources */,
 				84BF0DED1AF9F3E8004AB5CB /* XPathQuery.m in Sources */,

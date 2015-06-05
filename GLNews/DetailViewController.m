@@ -118,14 +118,16 @@
             TFHppleElement *tempElement = [articleNodes objectAtIndex:0];
              _imageArray = [_newsElementDetail imagesFromContent:[tempElement raw]];
             
-            if ([_imageArray count] >0) {
+            if ([_imageArray count] >1) {
                 //Отображение количества фотографий в галлереии к данной новости.
+                self.galleryCount.hidden = false;
                 self.galleryCount.text = [NSString stringWithFormat:@"Фото: %lu",(unsigned long)[_imageArray count]];
                 
                 [self.imageView setImageWithURL:[NSURL URLWithString:[_imageArray objectAtIndex:0]]];
             }
             else
             {
+                self.galleryCount.hidden = true;
                 [self.imageView setImageWithURL:[NSURL URLWithString:_newsElementDetail.imageUrl]];
             }
             

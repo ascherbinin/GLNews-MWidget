@@ -20,6 +20,29 @@
 @synthesize articleUrl = url;
 
 
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        image = [aDecoder decodeObjectForKey:@"imageName"];
+        title = [aDecoder decodeObjectForKey:@"titleText"];
+        description = [aDecoder decodeObjectForKey:@"descriptionText"];
+        date = [aDecoder decodeObjectForKey:@"dateNews"];
+        imageUrl = [aDecoder decodeObjectForKey:@"imageUrl"];
+        url = [aDecoder decodeObjectForKey:@"articleURL"];
+       }
+    
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:image forKey:@"imageName"];
+     [aCoder encodeObject:title forKey:@"titleText"];
+    [aCoder encodeObject:description forKey:@"descriptionText"];
+    [aCoder encodeObject:date forKey:@"dateNews"];
+    [aCoder encodeObject:imageUrl forKey:@"imageUrl"];
+    [aCoder encodeObject:url forKey:@"articleUrl"];
+}
+
 //Метод получения массива ссылок на изображения из html кода.
 -(NSArray *)imagesFromContent:(NSString*)contentStr
 {

@@ -7,30 +7,36 @@
 //
 
 #import "MainViewController.h"
-#import "NewsElement.h"
+
 #import "MainTableCell.h"
+#import "LoadCell.h"
 #import "TFHpple.h"
 #import "DetailViewController.h"
 #import "UIImageView+AFNetworking.h"
 #import "RDHelper.h"
 
 
+NSString *const kNewsElement = @"kNewsElement";
+
 @implementation MainViewController
 
 
 @synthesize sampleTableView;
-@synthesize pageNumber;
+
 
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self.tableView registerNib:[UINib nibWithNibName:@"MainTableCell" bundle:nil]forCellReuseIdentifier:@"NewsCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"LoadCell" bundle:nil]forCellReuseIdentifier:@"LoadCell"];
+    
     
     self.navigationItem.title = @"Новости"; //Изменение заголовка в navigation bar.
-    pageNumber =1;//Переменная для подсчета текущей страницы.
+    _pageNumber =1;//Переменная для подсчета текущей страницы.
 
-    [self loadNews]; // Загрузка новостей на текущей странице.
+    [self loadNews:_pageNumber]; // Загрузка новостей на текущей странице.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -51,8 +57,9 @@
 
 
 //Метод для построничной загрузки новостей с live.goodline.info
--(void)loadNews
+-(void)loadNews:(int) pageNumber
 {
+    int index = 1;
         // Получение ссылки на текущую страницу live.goodline.info
         NSURL *newsUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://live.goodline.info/guest/page%d",pageNumber]];
         
@@ -65,17 +72,31 @@
         {
             NSLog(@"Найдено %lu корневых элементов", (unsigned long)[newsNodes count]);
             
-            for (NSMutableArray *arr in [RDHelper parsArray:newsNodes]) {
-                //Добавлением в основной массив _objects, полученных из запроса элементов с помощью хелпера RDHelper.
+            //Добавлением в основной массив _objects, полученных из запроса элементов с помощью хелпера RDHelper.
+            for (NSMutableArray *arr in [RDHelper parsArray:newsNodes])
+            {
                 [_objects addObject:arr];
+                [self saveNewsElement:(NewsElement*)arr andIndex:index++];
             }
             
         
             
         }
    
+
             [self.tableView reloadData]; // Перезагрузка данных в таблице после получения все новостей на странице.
     
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
+}
+
+- (void)saveNewsElement:(NewsElement*)newsElement andIndex:(int)index {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:newsElement] forKey:[NSString stringWithFormat:@"%@%@",kNewsElement,@(index).stringValue]];
+    [defaults synchronize];
 }
 
 //Метод для загрузки последней новости при переходе из виджета
@@ -87,7 +108,7 @@
     
     if(!_objects.count>0) //Проверка наличия загруженных новостей
     {
-        [self loadNews];
+        [self loadNews:_pageNumber];
     }
     else
     {
@@ -112,6 +133,7 @@
 //Метод для установки высоты ячейки
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     return 100;
 }
 
@@ -125,16 +147,21 @@
 //Инициализация каждой ячейки в таблице
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
+    MainTableCell* cell;
   
-    static NSString *CellIdentifier = @"NewsCell";
-    MainTableCell *cell = (MainTableCell*) [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-
-    
-    if (cell == nil)
+    if (indexPath.row == [_objects count]-1)
     {
-        NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"MainTableCell" owner:self options:nil];
-        cell = [nib objectAtIndex:0];
+        cell = [tableView dequeueReusableCellWithIdentifier:@"LoadCell" forIndexPath:indexPath];
+        UIActivityIndicatorView *activityIndicator = (UIActivityIndicatorView *)[cell.contentView viewWithTag:100];
+        [activityIndicator startAnimating];
     }
+    else
+    {
+        
+    
+    
+   cell = (MainTableCell*)[tableView dequeueReusableCellWithIdentifier:@"NewsCell" forIndexPath:indexPath];
+
     
     
     NewsElement *news = [_objects objectAtIndex:indexPath.row];
@@ -155,14 +182,13 @@
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
    
     NSLog(@"%ld", (long)indexPath.row);
-    
+    }
     return cell;
 }
 
 #pragma mark - Работа с делегатом таблицы
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  
     
     //Создание контроллера для отображения полного текста новости
     _detailViewController = nil;
@@ -180,18 +206,18 @@
     
 }
 
-//Функция которая при прокрутке до каждого 7 элемента подгружает следующую страницу live.goodline.info
+//Функция которая при прокрутке до каждого 9 элемента подгружает следующую страницу live.goodline.info
 -(void) tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
     
     NSInteger totalRow = [tableView numberOfRowsInSection:indexPath.section]; //Общее количество ячеек в главной таблице.
    
-    if(indexPath.row == totalRow -3)
+    if(indexPath.row == totalRow -1)
     {
-              NSLog(@"Page Number - %d",(int)pageNumber+1);
-            pageNumber += 1;
-            [self loadNews];
+              NSLog(@"Page Number - %d",(int)_pageNumber+1);
+            _pageNumber += 1;
+        [self loadNews:_pageNumber];
         
         
         

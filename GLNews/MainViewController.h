@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "DetailViewController.h"
+#import "NewsElement.h"
 
 @interface MainViewController : UITableViewController
 
 @property (nonatomic,strong) IBOutlet UITableView *sampleTableView;
 @property (retain, nonatomic) DetailViewController *detailViewController;
+@property (nonatomic, strong) NewsElement *newsElement;
 
 @property (strong, nonatomic) NSMutableArray *objects;
 

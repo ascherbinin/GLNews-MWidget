@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NewsElement : NSObject
+@interface NewsElement : NSObject<NSCoding>
 
 @property (nonatomic, copy) NSString *imageName;
 @property (nonatomic, copy) NSString *imageUrl;
