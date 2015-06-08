@@ -21,7 +21,7 @@ NSString *const kNewsElement = @"kNewsArrayOfPage";
 @implementation MainViewController
 
 
-@synthesize sampleTableView;
+
 
 
 
@@ -29,20 +29,20 @@ NSString *const kNewsElement = @"kNewsArrayOfPage";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
-    NSLog(@"%@",documentsDirectory);
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *documentsDirectory = [paths objectAtIndex:0]; // Получение пути до папки приложения в симуляторе
+//    NSLog(@"%@",documentsDirectory);
     
     [self.tableView registerNib:[UINib nibWithNibName:@"MainTableCell" bundle:nil]forCellReuseIdentifier:@"NewsCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LoadCell" bundle:nil]forCellReuseIdentifier:@"LoadCell"];
     
     
     self.navigationItem.title = @"Новости"; //Изменение заголовка в navigation bar.
-    _pageNumber =1;//Переменная для подсчета текущей страницы.
+    _pageNumber =1;                         //Переменная для подсчета текущей страницы.
 
    
     
-    [self loadNews:_pageNumber]; // Загрузка новостей на текущей странице.
+    [self loadNews:_pageNumber];            // Загрузка новостей на текущей странице.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -66,8 +66,9 @@ NSString *const kNewsElement = @"kNewsArrayOfPage";
 -(void)loadNews:(int) pageNumber
 {
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *key = [NSString stringWithFormat:@"%@%d",kNewsElement,pageNumber];
+   
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults]; //переменная для хранение ссылки на локальный кэш NSUserDefaults
+    NSString *key = [NSString stringWithFormat:@"%@%d",kNewsElement,pageNumber]; //ключ для получения и сохранения данных
     
     if([defaults objectForKey:key] !=nil)
     {
@@ -87,24 +88,29 @@ NSString *const kNewsElement = @"kNewsArrayOfPage";
     }
     else
     {
-    
-        // Получение ссылки на текущую страницу live.goodline.info
-        NSURL *newsUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://live.goodline.info/guest/page%d",pageNumber]];
-        
-        //Массив элементов в теге article на странице live.goodline.info
-        NSArray *newsNodes = [RDHelper requestData:newsUrl xPathQueryStr:@"//article"];
-    
-        if ([newsNodes count] == 0)
-            NSLog(@"Нету node");
-        else
-        {
-            NSLog(@"Найдено %lu корневых элементов", (unsigned long)[newsNodes count]);
+       
+            self.loadingView.hidden = false;
+            // Получение ссылки на текущую страницу live.goodline.info
+            NSURL *newsUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://live.goodline.info/guest/page%d",pageNumber]];
             
-            //Добавлением в основной массив _objects, полученных из запроса элементов с помощью хелпера RDHelper.
+            //Массив элементов в теге article на странице live.goodline.info
+            NSArray *newsNodes = [RDHelper requestData:newsUrl xPathQueryStr:@"//article"];
+            
+            if ([newsNodes count] == 0)
+                NSLog(@"Нету node");
+            else
+            {
+                NSLog(@"Найдено %lu корневых элементов", (unsigned long)[newsNodes count]);
+                
+                //Добавлением в основной массив _objects, полученных из запроса элементов с помощью хелпера RDHelper.
                 [tempArray addObjectsFromArray:[RDHelper parsArray:newsNodes]];
-            
-        }
-        [self saveCustomObject:tempArray key:key];
+                
+            }
+            [self saveCustomObject:tempArray key:key];
+        
+        
+      
+       
     }
     
     [_objects addObjectsFromArray:tempArray];
@@ -139,7 +145,7 @@ NSString *const kNewsElement = @"kNewsArrayOfPage";
     [self.navigationController pushViewController:detailViewController animated:YES];
 }
 
-
+//Сохранение кастомного объекта по ключу в локальный plist фаил [NSUserDefaults]
 - (void)saveCustomObject:(NSArray *)object key:(NSString *)key {
     NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:object];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -148,6 +154,7 @@ NSString *const kNewsElement = @"kNewsArrayOfPage";
     
 }
 
+//Загрузка из кастомного объекта по ключу в массив данных
 - (NSArray *)loadCustomObjectWithKey:(NSString *)key {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSData *encodedObject = [defaults objectForKey:key];
@@ -202,7 +209,7 @@ NSString *const kNewsElement = @"kNewsArrayOfPage";
     NSURL* imageURL = [NSURL URLWithString: imageStringURL];
     if(imageURL != nil)
     {
-    [cell.imageNews setImageWithURL: imageURL];
+    [cell.imageNews setImageWithURL: imageURL]; //Асинхронная подгрузка изображения новости
     }
     else
     {
