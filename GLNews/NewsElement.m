@@ -36,11 +36,11 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:image forKey:@"imageName"];
-     [aCoder encodeObject:title forKey:@"titleText"];
+    [aCoder encodeObject:title forKey:@"titleText"];
     [aCoder encodeObject:description forKey:@"descriptionText"];
     [aCoder encodeObject:date forKey:@"dateNews"];
     [aCoder encodeObject:imageUrl forKey:@"imageUrl"];
-    [aCoder encodeObject:url forKey:@"articleUrl"];
+    [aCoder encodeObject:url forKey:@"articleURL"];
 }
 
 //Метод получения массива ссылок на изображения из html кода.

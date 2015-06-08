@@ -16,7 +16,7 @@
 #import "RDHelper.h"
 
 
-NSString *const kNewsElement = @"kNewsElement";
+NSString *const kNewsElement = @"kNewsArrayOfPage";
 
 @implementation MainViewController
 
@@ -29,6 +29,10 @@ NSString *const kNewsElement = @"kNewsElement";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0]; // Get documents folder
+    NSLog(@"%@",documentsDirectory);
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"MainTableCell" bundle:nil]forCellReuseIdentifier:@"NewsCell"];
     [self.tableView registerNib:[UINib nibWithNibName:@"LoadCell" bundle:nil]forCellReuseIdentifier:@"LoadCell"];
     
@@ -36,6 +40,8 @@ NSString *const kNewsElement = @"kNewsElement";
     self.navigationItem.title = @"Новости"; //Изменение заголовка в navigation bar.
     _pageNumber =1;//Переменная для подсчета текущей страницы.
 
+   
+    
     [self loadNews:_pageNumber]; // Загрузка новостей на текущей странице.
 }
 
@@ -59,7 +65,29 @@ NSString *const kNewsElement = @"kNewsElement";
 //Метод для построничной загрузки новостей с live.goodline.info
 -(void)loadNews:(int) pageNumber
 {
-    int index = 1;
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *key = [NSString stringWithFormat:@"%@%d",kNewsElement,pageNumber];
+    
+    if([defaults objectForKey:key] !=nil)
+    {
+        NSLog(@"Загрузка страницы №%d из кэша",pageNumber);
+        [tempArray addObjectsFromArray:[self loadCustomObjectWithKey:key]];
+       //        for (NSString *key in keyArr)
+//        {
+//            if([key hasPrefix:@"kNews"])
+//            {
+//            NSData *archivedObject = [defaults objectForKey:key];
+//            NewsElement *obj = (NewsElement *)[NSKeyedUnarchiver unarchiveObjectWithData:archivedObject];
+//            NSLog(@"%@",obj.titleText);
+//            }
+//
+//        }
+    
+    }
+    else
+    {
+    
         // Получение ссылки на текущую страницу live.goodline.info
         NSURL *newsUrl = [NSURL URLWithString:[NSString stringWithFormat:@"http://live.goodline.info/guest/page%d",pageNumber]];
         
@@ -73,31 +101,19 @@ NSString *const kNewsElement = @"kNewsElement";
             NSLog(@"Найдено %lu корневых элементов", (unsigned long)[newsNodes count]);
             
             //Добавлением в основной массив _objects, полученных из запроса элементов с помощью хелпера RDHelper.
-            for (NSMutableArray *arr in [RDHelper parsArray:newsNodes])
-            {
-                [_objects addObject:arr];
-                [self saveNewsElement:(NewsElement*)arr andIndex:index++];
-            }
-            
-        
+                [tempArray addObjectsFromArray:[RDHelper parsArray:newsNodes]];
             
         }
+        [self saveCustomObject:tempArray key:key];
+    }
+    
+    [_objects addObjectsFromArray:tempArray];
    
 
-            [self.tableView reloadData]; // Перезагрузка данных в таблице после получения все новостей на странице.
+ [self.tableView reloadData]; // Перезагрузка данных в таблице после получения все новостей на странице.
     
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    NSLog(@"%@", [[NSUserDefaults standardUserDefaults] dictionaryRepresentation]);
-}
-
-- (void)saveNewsElement:(NewsElement*)newsElement andIndex:(int)index {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:newsElement] forKey:[NSString stringWithFormat:@"%@%@",kNewsElement,@(index).stringValue]];
-    [defaults synchronize];
-}
 
 //Метод для загрузки последней новости при переходе из виджета
 
@@ -121,6 +137,22 @@ NSString *const kNewsElement = @"kNewsElement";
     [detailViewController setDetails:news];
     
     [self.navigationController pushViewController:detailViewController animated:YES];
+}
+
+
+- (void)saveCustomObject:(NSArray *)object key:(NSString *)key {
+    NSData *encodedObject = [NSKeyedArchiver archivedDataWithRootObject:object];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:encodedObject forKey:key];
+    [defaults synchronize];
+    
+}
+
+- (NSArray *)loadCustomObjectWithKey:(NSString *)key {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *encodedObject = [defaults objectForKey:key];
+    NSArray *object = [NSKeyedUnarchiver unarchiveObjectWithData:encodedObject];
+    return object;
 }
 
 #pragma mark - Работа с data source таблицы
@@ -198,6 +230,7 @@ NSString *const kNewsElement = @"kNewsElement";
     {
         //Получение одной новости из массива в зависимости от выбранной ячейки
         NewsElement *news = [_objects objectAtIndex:indexPath.row];
+        
         //Передача данных новости в контроллер.
         [_detailViewController setDetails:news];
     }

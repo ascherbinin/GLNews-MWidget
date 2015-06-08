@@ -49,6 +49,7 @@
 -(void) setDetails:(NewsElement*)reciveDetail;
 {
     _newsElementDetail = reciveDetail;
+    
 }
 
 //Метод для обработки тапа по картинке внутри новости
